@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Парикмахерская "Стиль" — Услуги</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f9f2f0, #e6b89c);
+            color: #5a3921;
+        }
+        header {
+            background: linear-gradient(to right, #e6b89c, #d76d77);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        nav {
+            background-color: #5a3921;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            background-color: #e6b89c;
+            transform: translateY(-2px);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .card h3 {
+            color: #d76d77;
+            margin-top: 0;
+        }
+        .card p {
+            color: #7a5c44;
+        }
+        .price {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #d76d77;
+        }
+        .btn {
+            background-color: #d76d77;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background-color: #e6b89c;
+            transform: translateY(-3px);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #5a3921;
+            color: white;
+            margin-top: 40px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Парикмахерская "Стиль"</div>
+        <p>Создаём образы, которые подчёркивают вашу индивидуальность</p>
+    </header>
+    <nav>
+        <a href="#home">Главная</a>
+        <a href="#services">Услуги</a>
+        <a href="#about">О нас</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+    <div class="container">
+        <section id="home">
+            <h2>Добро пожаловать!</h2>
+            <p>Мы создаём красивые и современные прически для женщин и мужчин. Используем только качественные средства и индивидуальный подход.</p>
+        </section>
+        <section id="services">
+            <h2>Наши услуги</h2>
+            <div class="services-grid">
+                <!-- Карточка 1 -->
+                <div class="card">
+                    <h3>Женская стрижка</h3>
+                    <p>Классическая, каскад, каре, боб — под ваш образ</p>
+                    <div class="price">от 1200 ₽</div>
+                    <button class="btn" onclick="bookService('Женская стрижка')">Записаться</button>
+                </div>
+                <!-- Карточка 2 -->
+                <div class="card">
+                    <h3>Мужская стрижка</h3>
+                    <p>Стрижка машинкой, ножницами, борода, усы</p>
+                    <div class="price">от 800 ₽</div>
+                    <button class="btn" onclick="bookService('Мужская стрижка')">Записаться</button>
+                </div>
+                <!-- Карточка 3 -->
+                <div class="card">
+                    <h3>Окрашивание</h3>
+                    <p>Балаяж, шатуш, мелирование, колорирование</p>
+                    <div class="price">от 2500 ₽</div>
+                    <button class="btn" onclick="bookService('Окрашивание')">Записаться</button>
+                </div>
+                <!-- Карточка 4 -->
+                <div class="card">
+                    <h3>Укладка</h3>
+                    <p>На выпускной, свадьбу, вечеринку</p>
+                    <div class="price">от 1000 ₽</div>
+                    <button class="btn" onclick="bookService('Укладка')">Записаться</button>
+                </div>
+                <!-- Карточка 5 -->
+                <div class="card">
+                    <h3>Ламинирование</h3>
+                    <p>Блеск, гладкость, здоровье волос</p>
+                    <div class="price">от 1800 ₽</div>
+                    <button class="btn" onclick="bookService('Ламинирование')">Записаться</button>
+                </div>
+                <!-- Карточка 6 -->
+                <div class="card">
+                    <h3>Наращивание ресниц</h3>
+                    <p>Объём, длина, натуральный вид</p>
+                    <div class="price">от 2000 ₽</div>
+                    <button class="btn" onclick="bookService('Наращивание ресниц')">Записаться</button>
+                </div>
+                <!-- Карточка 7 -->
+                <div class="card">
+                    <h3>Маникюр</h3>
+                    <p>Классический, гель, дизайн</p>
+                    <div class="price">от 900 ₽</div>
+                    <button class="btn" onclick="bookService('Маникюр')">Записаться</button>
+                </div>
+                <!-- Карточка 8 -->
+                <div class="card">
+                    <h3>Педикюр</h3>
+                    <p>Классический, аппаратный, покрытие</p>
+                    <div class="price">от 1100 ₽</div>
+                    <button class="btn" onclick="bookService('Педикюр')">Записаться</button>
+                </div>
+            </div>
+        </section>
+        <section id="about">
+            <h2>О нас</h2>
+            <p>Меня зовут Марина — я парикмахер с 8-летним опытом. Я верю, что каждая прическа — это выражение личности. Здесь вы найдёте не просто стрижку, а заботу, внимание и стиль.</p>
+        </section>
+        <section id="contact">
+            <h2>Контакты</h2>
+            <p>📍 Адрес: ул. Красивая, д. 10</p>
+            <p>📞 Телефон: +7 (999) 123-45-67</p>
+            <p>⏰ Работаем: Пн-Сб 10:00–20:00</p>
+        </section>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Записаться на услугу</h3>
+            <p>Вы выбрали: <strong id="selectedService">...</strong></p>
+            <input type="text" id="name" placeholder="Ваше имя"><br><br>
+            <input type="tel" id="phone" placeholder="Телефон"><br><br>
+            <button class="btn" onclick="submitBooking()">Отправить</button>
+            <button class="btn" style="background-color: #aaa;" onclick="hideModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Парикмахерская "Стиль". Все права защищены.</p>
+    </footer>
+
+    <script>
+        function bookService(serviceName) {
+            document.getElementById("selectedService").textContent = serviceName;
+            document.getElementById("modal").style.display = "block";
+        }
+        function hideModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+        function submitBooking() {
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            if (name && phone) {
+                alert(`Спасибо, ${name}! Мы свяжемся с вами по телефону ${phone} для подтверждения записи на услугу.`);
+                hideModal();
+            } else {
+                alert("Пожалуйста, заполните все поля.");
+            }
+        }
+        // Анимация карточек при прокрутке
+        window.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll(".card");
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add("show");
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
