@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Алексей — Веб-разработчик</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #f4f4f9, #d0e1ff);
+            color: #333;
+        }
+        header {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .profile-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 5px solid white;
+            margin: 0 auto 20px;
+            display: block;
+        }
+        nav {
+            background-color: #2c3e50;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            background-color: #6a11cb;
+            transform: translateY(-2px);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .card h3 {
+            color: #6a11cb;
+            margin-top: 0;
+        }
+        .card p {
+            color: #555;
+        }
+        .price {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #6a11cb;
+        }
+        .btn {
+            background-color: #6a11cb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background-color: #2575fc;
+            transform: translateY(-3px);
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .skill {
+            background-color: #6a11cb;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: white;
+            margin-top: 40px;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="data:image/jpeg;base64,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" alt="Алексей" class="profile-img">
+        <h1>Алексей Иванов</h1>
+        <p>Веб-разработчик | Создаю сайты на HTML, CSS и JavaScript</p>
+    </header>
+    <nav>
+        <a href="#home">Главная</a>
+        <a href="#services">Услуги</a>
+        <a href="#skills">Навыки</a>
+        <a href="#projects">Проекты</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+    <div class="container">
+        <section id="home">
+            <h2>Добро пожаловать в моё портфолио!</h2>
+            <p>Я — школьник, который уже умеет создавать красивые и адаптивные сайты. Использую HTML, CSS и JavaScript — чистый код, быстрая загрузка, мобильная версия.</p>
+        </section>
+        <section id="services">
+            <h2>Мои услуги</h2>
+            <div class="services-grid">
+                <!-- Карточка 1 -->
+                <div class="card">
+                    <h3>Визитка</h3>
+                    <p>Сайт на 5 страниц: главная, услуги, контакты и др.</p>
+                    <div class="price">от 800 ₽</div>
+                    <button class="btn" onclick="bookService('Визитка')">Заказать</button>
+                </div>
+                <!-- Карточка 2 -->
+                <div class="card">
+                    <h3>Лендинг</h3>
+                    <p>Одностраничный сайт для продажи услуги/товара</p>
+                    <div class="price">от 1200 ₽</div>
+                    <button class="btn" onclick="bookService('Лендинг')">Заказать</button>
+                </div>
+                <!-- Карточка 3 -->
+                <div class="card">
+                    <h3>Портфолио</h3>
+                    <p>Сайт для демонстрации ваших работ и навыков</p>
+                    <div class="price">от 1000 ₽</div>
+                    <button class="btn" onclick="bookService('Портфолио')">Заказать</button>
+                </div>
+                <!-- Карточка 4 -->
+                <div class="card">
+                    <h3>Адаптивная верстка</h3>
+                    <p>Сайт подходит под любое устройство: телефон, планшет, ПК</p>
+                    <div class="price">от 1500 ₽</div>
+                    <button class="btn" onclick="bookService('Адаптивная верстка')">Заказать</button>
+                </div>
+                <!-- Карточка 5 -->
+                <div class="card">
+                    <h3>Сайт-каталог</h3>
+                    <p>Список услуг/товаров с описанием и фото</p>
+                    <div class="price">от 2000 ₽</div>
+                    <button class="btn" onclick="bookService('Сайт-каталог')">Заказать</button>
+                </div>
+                <!-- Карточка 6 -->
+                <div class="card">
+                    <h3>Интерактивный сайт</h3>
+                    <p>С JavaScript: формы, анимации, модальные окна</p>
+                    <div class="price">от 2500 ₽</div>
+                    <button class="btn" onclick="bookService('Интерактивный сайт')">Заказать</button>
+                </div>
+            </div>
+        </section>
+        <section id="skills">
+            <h2>Мои навыки</h2>
+            <div class="skills">
+                <span class="skill">HTML5</span>
+                <span class="skill">CSS3</span>
+                <span class="skill">JavaScript</span>
+                <span class="skill">Адаптивная верстка</span>
+                <span class="skill">Git</span>
+                <span class="skill">Netlify</span>
+            </div>
+        </section>
+        <section id="projects">
+            <h2>Мои проекты</h2>
+            <div class="services-grid">
+                <div class="card">
+                    <h3>Парикмахерская "Стиль"</h3>
+                    <p>Визитка для мастера. 5 страниц, адаптивный дизайн.</p>
+                </div>
+                <div class="card">
+                    <h3>Репетитор по математике</h3>
+                    <p>Сайт для репетитора. Ясная структура, отзывчивый интерфейс.</p>
+                </div>
+            </div>
+        </section>
+        <section id="contact">
+            <h2>Свяжитесь со мной</h2>
+            <p>📧 Email: alex.webdev@example.com</p>
+            <p>📞 Телефон: +7 (999) 123-45-67</p>
+            <p>💬 Telegram: @alex_dev</p>
+        </section>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3>Заказать услугу</h3>
+            <p>Вы выбрали: <strong id="selectedService">...</strong></p>
+            <input type="text" id="name" placeholder="Ваше имя"><br><br>
+            <input type="tel" id="phone" placeholder="Телефон"><br><br>
+            <button class="btn" onclick="submitBooking()">Отправить</button>
+            <button class="btn" style="background-color: #aaa;" onclick="hideModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Алексей Иванов — Веб-разработчик</p>
+    </footer>
+
+    <script>
+        function bookService(serviceName) {
+            document.getElementById("selectedService").textContent = serviceName;
+            document.getElementById("modal").style.display = "block";
+        }
+        function hideModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+        function submitBooking() {
+            const name = document.getElementById("name").value;
+            const phone = document.getElementById("phone").value;
+            if (name && phone) {
+                alert(`Спасибо, ${name}! Я свяжусь с вами по телефону ${phone} для обсуждения деталей.`);
+                hideModal();
+            } else {
+                alert("Пожалуйста, заполните все поля.");
+            }
+        }
+        // Анимация карточек при прокрутке
+        window.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll(".card");
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add("show");
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
